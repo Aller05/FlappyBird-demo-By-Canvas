@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #canvas{
+            overflow: hidden;
+            display: block;
+            margin: 0 auto;
+            background-color: skyblue;
+        }
+        #site{
+            width: auto;
+            height: auto;
+            background-color: rgba(255,255,255,.5);
+            box-sizing: border-box;
+            padding: 5px;
+            position: fixed;
+            top: 5px;
+            left: 80px;
+        }
+        #site input{
+            width: auto;
+            height: 25px;
+            background-color: #b9e41a;
+            outline: none;
+            color: #000000;
+        }
+        #span{
+            width: auto;
+            height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: rgba(255, 69, 0, 0.69);
+
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="900" height="600" style="border: 1px solid #000;"></canvas>
+<div id="site">
+    <input type="button" id="begin" value="开始游戏">
+    <input type="button" id="levelup" value="点击提高难度">
+    <input type="button" id="leveldown" value="点击降低难度">
+    <span id="span"></span>
+</div>
+
+<script src="js/underscore-min.js"></script>
+<script src="js/simple-inheritence.js"></script>
+<script src="js/Game.js"></script>
+<script src="js/FrameUtil.js"></script>
+<script src="js/StaticSource.js"></script>
+<script src="js/Background.js"></script>
+<script src="js/Pipe.js"></script>
+<script src="js/Bird.js"></script>
+<script>
+    var game = new Game({
+        fps:60,
+        canvasId:'canvas',
+        arr:[
+    {name : "fangzi" , src : "images/bg1.png"},
+    {name : "shu" , src : "images/bg2.png"},
+    {name : "diban" , src : "images/bg3.png"},
+    {name : "bird" , src : "images/bird.png"},
+    {name : "blood" , src : "images/blood.png"},
+    {name : "die" , src : "images/die.png"},
+    {name : "gamebegin" , src : "images/gamebegin.png"},
+    {name : "gameover" , src : "images/gameover.png"},
+    {name : "number" , src : "images/number.png"},
+    {name : "pipe0" , src : "images/pipe0.png"},
+    {name : "pipe1" , src : "images/pipe1.png"}
+        ]
+    });
+    game.canvas.width = window.innerWidth;
+    game.canvas.height = window.innerHeight;
+    var levelIndex = 5;
+    var hardNum = 1;
+    var levelUp = document.getElementById('levelup');
+    var levelDown = document.getElementById('leveldown');
+    var begin = document.getElementById('begin');
+    var span = document.getElementById('span');
+
+    levelUp.addEventListener('click',function(){
+        levelIndex++;
+        hardNum = levelIndex * 0.1 + 1;
+        span.innerHTML = '当前难度系数'+levelIndex;
+    });
+    levelDown.addEventListener('click',function(){
+        levelIndex--;
+        if(levelIndex<=0){
+            levelIndex=0;
+        }
+        hardNum = levelIndex * 0.1 + 1;
+        span.innerHTML = '当前难度系数'+levelIndex;
+    });
+    span.innerHTML = '当前难度系数'+levelIndex;
+    begin.addEventListener('click',function(){
+        game.run();
+    })
+
+</script>
+</body>
+</html>
